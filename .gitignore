@@ -23,7 +23,3 @@
 /nbdist/
 /.nb-gradle/
 /build/
-
-
-###Mine###
-**/surefire-reports/*

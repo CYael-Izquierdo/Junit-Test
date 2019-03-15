@@ -27,9 +27,9 @@ public class ApiTest {
 	@DisplayName("Single test failed")
 	@Test
 	void testSingleFailTest() {
-	    assertEquals("hola", "hola");
+	    assertEquals("hola", "hol");
 	}
-	
+
 	@AfterEach
 	void tearDown() {
 	    System.out.println("@AfterEach - executed after each test method.");
