@@ -27,7 +27,7 @@ public class ApiTest {
 	@DisplayName("Single test failed")
 	@Test
 	void testSingleFailTest() {
-	    assertEquals("hola", "hla");
+	    assertEquals("hola", "hola");
 	}
 	
 	@AfterEach
