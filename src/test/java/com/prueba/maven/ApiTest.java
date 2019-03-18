@@ -19,7 +19,7 @@ import java.util.Map;
 
 
 public class ApiTest {
-	
+
 	// El método @BeforeAll debe ser estático, si no, el codigo no compilará
 	@BeforeAll
 	static void setup() {
@@ -30,6 +30,7 @@ public class ApiTest {
 	void init(TestInfo info) {
 	    System.out.println("@BeforeEach - executes before each test method in this class");
 	    System.out.println(info.getTags());
+
 	}	 
 	
 	@AfterEach
@@ -79,6 +80,8 @@ public class ApiTest {
 	  
 	}
 	
+	// <<<<<<<<<<<<<<<<<<<<<<<<<<<<HELPERS>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	
 	private Map<String, Object> getResponseAsMap(HttpURLConnection con) throws IOException{
 		InputStream in = con.getInputStream();
 		BufferedReader r = new BufferedReader(new InputStreamReader(in));
@@ -107,11 +110,5 @@ public class ApiTest {
         }
         return map;
     }
-	
-	@DisplayName("Single test failed")
-	@Test
-	void testSingleFailTest() {
-	    assertEquals("hola", "hol");
-	}
 
 }
