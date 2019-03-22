@@ -1,11 +1,13 @@
-package com.prueba.maven;
+/*package com.prueba.maven;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.prueba.maven.junit_extension.RegisterTagExtension;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,6 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
+@ExtendWith(RegisterTagExtension.class)
 public class ApiTest {
 
 	// El método @BeforeAll debe ser estático, si no, el codigo no compilará
@@ -46,6 +49,11 @@ public class ApiTest {
 	
 	// <<<<<<<<<<<<<<<<<<<<<<<<<<<<TESTS>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	
+	
+	@Test
+	void asd(){
+		assertEquals("as", "");
+	}
 	
 	@DisplayName("Single test successful")
 	@Test
@@ -112,3 +120,4 @@ public class ApiTest {
     }
 
 }
+*/
