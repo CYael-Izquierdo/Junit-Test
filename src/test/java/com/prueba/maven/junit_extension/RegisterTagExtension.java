@@ -16,8 +16,6 @@ public class RegisterTagExtension implements AfterAllCallback,  ExecutionConditi
 		if(context.getClass().getName() == ClassExtensionContext.class.getName()){
 			return ConditionEvaluationResult.enabled("It's a test class");
 		}
-		System.out.println(context.getClass().getName());
-		System.out.println(context.getDisplayName() + "  " + context.getTags().toString());
 		TestInfo test = new TestInfo(context);
 		return registerTest(test);
 	}
@@ -74,11 +72,12 @@ public class RegisterTagExtension implements AfterAllCallback,  ExecutionConditi
 		System.out.println("================================================================================================================");
 		
 		String testsExecutedReport = "Tests Executed: \n";
+		
 		for(String tag: TagsTo.run()){
-			testsExecutedReport = testsExecutedReport + "\t" + tag + ":\n";
 			if(!taggedTestCounters.containsKey(tag)){
 				break;
 			}
+			testsExecutedReport = testsExecutedReport + "\t" + tag + "(" + taggedTestCounters.get(tag).size() + "):\n";
 			for(TestInfo test: taggedTestCounters.get(tag)){
 
 				testsExecutedReport = testsExecutedReport + "\t\t- " + test.getName() + "\n";
@@ -88,17 +87,17 @@ public class RegisterTagExtension implements AfterAllCallback,  ExecutionConditi
 		
 		String testsSkippedReport = "Tests Skipped: \n";
 		for(String tag: TagsTo.skip()){
-			testsSkippedReport = testsSkippedReport + "\t" + tag + ":\n";
 			if(!taggedTestCounters.containsKey(tag)){
 				break;
 			}
+			testsSkippedReport = testsSkippedReport + "\t" + tag + "(" + taggedTestCounters.get(tag).size() + "):\n";
 			for(TestInfo test: taggedTestCounters.get(tag)){
 				testsSkippedReport = testsSkippedReport + "\t\t- " + test.getName() + "\n";
 			}
 		}
 		System.out.println(testsSkippedReport);		
 		
-		String wrongTaggedTestsReport = "Wrongly tagged tests: \n";
+		String wrongTaggedTestsReport = "Wrongly tagged tests(" + wrongTaggedTests.size() + "):\n";
 		for(TestInfo test: wrongTaggedTests){
 			String wTTReportHelp = "\t-" + test.getName() + ":\n";
 			for(String tag: test.getTags()){
@@ -108,7 +107,7 @@ public class RegisterTagExtension implements AfterAllCallback,  ExecutionConditi
 		}
 		System.out.println(wrongTaggedTestsReport);
 		
-		String untaggedTestsReport = "Untagged tests: \n";
+		String untaggedTestsReport = "Untagged tests(" + untaggedTests.size() + "):\n";
 		for(TestInfo test: untaggedTests){
 			untaggedTestsReport = untaggedTestsReport + "\t-" + test.getName();
 		}
