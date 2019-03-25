@@ -15,16 +15,11 @@ import com.prueba.maven.junit_extension.RegisterTagExtension;
 import io.restassured.http.ContentType;
 import io.restassured.http.Header;
 import io.restassured.http.Headers;
-import io.restassured.response.Response;
-import io.restassured.specification.RequestSpecification;
 
 
 @ExtendWith(RegisterTagExtension.class)
 public class AssuredTest {
 	
-/*	RequestSpecification requestSpecification = with().
-			header("Content-Type", "application/json").
-			header("X-Redmine-API-Key", "c278b5e3cca993d48a760aae98c8c81e108bb64f");*/
 	Header contentType = new Header("Content-Type", "application/json");
 	Header redmineApiKey = new Header("X-Redmine-API-Key", "c278b5e3cca993d48a760aae98c8c81e108bb64f");
 	Headers headers = new Headers(contentType, redmineApiKey);
@@ -34,7 +29,6 @@ public class AssuredTest {
 	
 	@Test
 	@Tag("Working")
-	/*@Disabled*/
 	public void getProjectList(){
 		given().
 			headers(headers).
@@ -51,7 +45,7 @@ public class AssuredTest {
         "20, Angela Gonzalez MD, angela-gonzalez-md, 1",
         "19, test proyect, test-proyect, 1"
 	})
-	@Tag("Broken")
+	@Tag("Working")
 	public void getExistingProjectByID(int id, String name, String identifier, int status){
 		given().
 			headers(headers).

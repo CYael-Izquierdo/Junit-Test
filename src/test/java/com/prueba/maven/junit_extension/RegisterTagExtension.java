@@ -4,19 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import org.junit.jupiter.api.extension.*;
 import org.junit.jupiter.engine.descriptor.ClassExtensionContext;
-import org.junit.platform.commons.logging.Logger;
-import org.junit.platform.commons.logging.LoggerFactory;
-import org.junit.platform.engine.TestDescriptor;
-import org.junit.platform.engine.support.hierarchical.Node.SkipResult;
-import org.mockito.internal.junit.TestFinishedEvent;
-import org.springframework.test.context.TestContextBootstrapper;
-
 
 public class RegisterTagExtension implements AfterAllCallback,  ExecutionCondition{
 
 	private HashMap<String, ArrayList<TestInfo>> taggedTestCounters = new HashMap<String, ArrayList<TestInfo>>();
-	private ArrayList<TestInfo> WrongTaggedTests = new ArrayList<TestInfo>();
-	private ArrayList<TestInfo> UntaggedTests = new ArrayList<TestInfo>();
+	private ArrayList<TestInfo> wrongTaggedTests = new ArrayList<TestInfo>();
+	private ArrayList<TestInfo> untaggedTests = new ArrayList<TestInfo>();
 
 	@Override
 	public ConditionEvaluationResult evaluateExecutionCondition(ExtensionContext context) {
@@ -44,20 +37,24 @@ public class RegisterTagExtension implements AfterAllCallback,  ExecutionConditi
 			addWrongTaggedTest(test);
 			return ConditionEvaluationResult.disabled("Skip: Test tagged with multiple custom tag");
 		} else {
-			addTaggedTest(test);
-			if (TagsTo.skip().contains(test.getTags().get(0))) {
-				return ConditionEvaluationResult.disabled("Skip: Test tagged with a skip custom tag");
+			if(!test.getTestContext().getParent().get().getTestMethod().isPresent()){
+				addTaggedTest(test);
+				if (TagsTo.skip().contains(test.getTags().get(0))) {
+					return ConditionEvaluationResult.disabled("Skip: Test tagged with a skip custom tag");
+				}
+				return ConditionEvaluationResult.enabled("Test Tagged with a run custom tag");
+			} else {
+				return ConditionEvaluationResult.enabled("Test Tagged with a run custom tag");
 			}
-			return ConditionEvaluationResult.enabled("Test Tagged with a run custom tag");
 		}
 	}
 
 	private void addUntaggedTest(TestInfo test) {
-		UntaggedTests.add(test);
+		untaggedTests.add(test);
 	}
 
 	private void addWrongTaggedTest(TestInfo test) {
-		WrongTaggedTests.add(test);
+		wrongTaggedTests.add(test);
 	}
 	
 	private void addTaggedTest(TestInfo test) {
@@ -73,15 +70,51 @@ public class RegisterTagExtension implements AfterAllCallback,  ExecutionConditi
 	}
 	
 	private void showReport(){
-		String report;
+		
+		System.out.println("================================================================================================================");
 		
 		String testsExecutedReport = "Tests Executed: \n";
 		for(String tag: TagsTo.run()){
-			testsExecutedReport.concat("\t" + tag + "\n");
+			testsExecutedReport = testsExecutedReport + "\t" + tag + ":\n";
+			if(!taggedTestCounters.containsKey(tag)){
+				break;
+			}
 			for(TestInfo test: taggedTestCounters.get(tag)){
-				testsExecutedReport.concat("\t\t" + test.getName() + "\n");
+
+				testsExecutedReport = testsExecutedReport + "\t\t- " + test.getName() + "\n";
 			}
 		}
+		System.out.println(testsExecutedReport);
+		
+		String testsSkippedReport = "Tests Skipped: \n";
+		for(String tag: TagsTo.skip()){
+			testsSkippedReport = testsSkippedReport + "\t" + tag + ":\n";
+			if(!taggedTestCounters.containsKey(tag)){
+				break;
+			}
+			for(TestInfo test: taggedTestCounters.get(tag)){
+				testsSkippedReport = testsSkippedReport + "\t\t- " + test.getName() + "\n";
+			}
+		}
+		System.out.println(testsSkippedReport);		
+		
+		String wrongTaggedTestsReport = "Wrongly tagged tests: \n";
+		for(TestInfo test: wrongTaggedTests){
+			String wTTReportHelp = "\t-" + test.getName() + ":\n";
+			for(String tag: test.getTags()){
+				wTTReportHelp = wTTReportHelp + "\t\t-" + tag + "\n";
+			}
+			wrongTaggedTestsReport = wrongTaggedTestsReport + wTTReportHelp;
+		}
+		System.out.println(wrongTaggedTestsReport);
+		
+		String untaggedTestsReport = "Untagged tests: \n";
+		for(TestInfo test: untaggedTests){
+			untaggedTestsReport = untaggedTestsReport + "\t-" + test.getName();
+		}
+		System.out.println(untaggedTestsReport);
+		
+		System.out.println("================================================================================================================");
 		
 	}
 	
