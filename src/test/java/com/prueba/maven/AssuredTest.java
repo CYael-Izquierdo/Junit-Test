@@ -18,6 +18,7 @@ import io.restassured.http.Headers;
 
 
 @ExtendWith(RegisterTagExtension.class)
+@DisplayName("Redmine project api test")
 public class AssuredTest {
 	
 	Header contentType = new Header("Content-Type", "application/json");

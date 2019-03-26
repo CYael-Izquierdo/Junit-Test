@@ -1,4 +1,4 @@
-/*package com.prueba.maven;
+package com.prueba.maven;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.*;
@@ -120,4 +120,3 @@ public class ApiTest {
     }
 
 }
-*/

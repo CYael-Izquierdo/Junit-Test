@@ -7,6 +7,7 @@ import org.junit.jupiter.engine.descriptor.ClassExtensionContext;
 
 public class RegisterTagExtension implements AfterAllCallback,  ExecutionCondition{
 
+	private String testSuiteName;
 	private HashMap<String, ArrayList<TestInfo>> taggedTestCounters = new HashMap<String, ArrayList<TestInfo>>();
 	private ArrayList<TestInfo> wrongTaggedTests = new ArrayList<TestInfo>();
 	private ArrayList<TestInfo> untaggedTests = new ArrayList<TestInfo>();
@@ -22,6 +23,7 @@ public class RegisterTagExtension implements AfterAllCallback,  ExecutionConditi
 
 	@Override
 	public void afterAll(ExtensionContext context) throws Exception {
+		testSuiteName = context.getDisplayName();
 		showReport();	
 	}
 
@@ -71,7 +73,9 @@ public class RegisterTagExtension implements AfterAllCallback,  ExecutionConditi
 		
 		System.out.println("================================================================================================================");
 		
-		String testsExecutedReport = "Tests Executed: \n";
+		String testsExecutedReport = "Test Suite: " + testSuiteName + "\n\n";
+		
+		testsExecutedReport = testsExecutedReport + "Tests Executed: \n";
 		
 		for(String tag: TagsTo.run()){
 			if(!taggedTestCounters.containsKey(tag)){
@@ -99,9 +103,9 @@ public class RegisterTagExtension implements AfterAllCallback,  ExecutionConditi
 		
 		String wrongTaggedTestsReport = "Wrongly tagged tests(" + wrongTaggedTests.size() + "):\n";
 		for(TestInfo test: wrongTaggedTests){
-			String wTTReportHelp = "\t-" + test.getName() + ":\n";
+			String wTTReportHelp = "\t- " + test.getName() + ":\n";
 			for(String tag: test.getTags()){
-				wTTReportHelp = wTTReportHelp + "\t\t-" + tag + "\n";
+				wTTReportHelp = wTTReportHelp + "\t\t- " + tag + "\n";
 			}
 			wrongTaggedTestsReport = wrongTaggedTestsReport + wTTReportHelp;
 		}
@@ -109,7 +113,7 @@ public class RegisterTagExtension implements AfterAllCallback,  ExecutionConditi
 		
 		String untaggedTestsReport = "Untagged tests(" + untaggedTests.size() + "):\n";
 		for(TestInfo test: untaggedTests){
-			untaggedTestsReport = untaggedTestsReport + "\t-" + test.getName();
+			untaggedTestsReport = untaggedTestsReport + "\t- " + test.getName() + "\n";
 		}
 		System.out.println(untaggedTestsReport);
 		
