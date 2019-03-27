@@ -1,16 +1,12 @@
-pipeline {
-  agent any
-  stages {
-    stage('Another Stage') {
-      steps {
-        sh 'pwd'
-        sh 'cat README.md'
-      }
+node {
+checkout scm
+stage('Build') {
+// Run the maven build
+if (isUnix()) {
+	sh 'mvn test'
+	} else {
+	bat "dir"
+	bat 'mvn test'
     }
-    stage('Maven Stage') {
-      steps {
-        echo 'Put the maven command here.'
-      }
-    }
-  }
+}
 }
