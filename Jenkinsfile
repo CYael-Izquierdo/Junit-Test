@@ -6,12 +6,12 @@ pipeline {
     stages {
     	stage('Clean') {
     		steps {
-    			sh mvn clean
+    			mvn clean
     		}
     	}
         stage('Test') {
             steps {
-                sh mvn test
+                 mvn test
             }
         }
     }
