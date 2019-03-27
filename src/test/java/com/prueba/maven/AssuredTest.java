@@ -1,9 +1,7 @@
 package com.prueba.maven;
 
 import static io.restassured.RestAssured.*;
-import static io.restassured.matcher.RestAssuredMatchers.*;
 import static org.hamcrest.Matchers.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -92,7 +90,7 @@ public class AssuredTest {
 			param("project.description", description).
 			post(urlBase + endPoint + dataType).
 		then().
-			statusCode(400);
+			statusCode(40);
 	}
 	
 }
