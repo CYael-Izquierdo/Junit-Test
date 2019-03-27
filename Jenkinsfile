@@ -10,8 +10,7 @@ pipeline {
 		//Run the maven build
 		stage('Build') {
 		  steps {
-			script {
-				slackSend color: "good", message: "Job: ${env.JOB_NAME} with Build Number ${env.BUILD_NUMBER} - # Started #"
+			script {				
 				if (isUnix()) {
 					sh 'mvn test'
 				} else {
@@ -27,18 +26,6 @@ pipeline {
 				   archiveArtifacts 'target\\**'
 				   junit 'target\\surefire-reports\\*.xml'
 				   }
-		   }
-		   success {
-				slackSend color: "good", message: "Job: ${env.JOB_NAME} with Build Number ${env.BUILD_NUMBER} was Successful. # Ended #"
-		   }
-		   failure {
-				slackSend color: "danger", message: "Job: ${env.JOB_NAME} with Build Number ${env.BUILD_NUMBER} was Failed. # Ended #"
-		   }
-		   unstable {
-				slackSend color: "warning", message: "Job: ${env.JOB_NAME} with Build Number ${env.BUILD_NUMBER} was Unstable. # Ended #"
-		   }
-		   aborted {
-				slackSend color: "danger", message: "Job: ${env.JOB_NAME} with Build Number ${env.BUILD_NUMBER} was Aborted. # Ended #"
 		   }
 	  }
 }	
