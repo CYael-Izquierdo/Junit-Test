@@ -23,8 +23,8 @@ pipeline {
 	  post {
 		   always {
 				script {
-				   archiveArtifacts 'target\\**'
-				   junit 'target\\surefire-reports\\*.xml'
+				   archiveArtifacts 'target\\surefire-reports\\*.xml'
+				   junit '**\\surefire-reports\\*.xml'
 				   }
 		   }
 	  }
