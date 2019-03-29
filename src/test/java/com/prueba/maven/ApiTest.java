@@ -52,7 +52,7 @@ public class ApiTest {
 	
 	@Test
 	void asd(){
-		assertEquals("as", "");
+		assertEquals("as", "asd");
 	}
 	
 	@Tag("Api")
