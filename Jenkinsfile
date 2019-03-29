@@ -25,7 +25,7 @@ pipeline {
 				script {
 				   archiveArtifacts 'target\\surefire-reports\\*.xml'
 				   junit '**\\surefire-reports\\*.xml'
-				   }
+				}
 		   }
 	  }
 }	
