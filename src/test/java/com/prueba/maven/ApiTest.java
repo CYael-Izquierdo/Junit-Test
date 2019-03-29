@@ -55,12 +55,6 @@ public class ApiTest {
 		assertEquals("as", "");
 	}
 	
-	@DisplayName("Single test successful")
-	@Test
-	void testSingleSuccessTest() {
-	    assertEquals("hola", "hola");
-	}
-	
 	@Tag("Api")
 	@Test
 	void testRequest() throws IOException {			  
