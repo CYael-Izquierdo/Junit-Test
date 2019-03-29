@@ -61,7 +61,7 @@ public class ApiTest {
 	    assertEquals("hola", "hola");
 	}
 	
-	@Tag("Api")
+	@Tag("Apiasdsdasdasd")
 	@Test
 	void testRequest() throws IOException {			  
 		URL url = new URL("http://192.168.64.2/projects.json");
